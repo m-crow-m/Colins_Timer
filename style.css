@@ -1,0 +1,288 @@
+:root {
+  --color-bg: #050505;
+  --color-primary: #ff3333; /* Noir Red */
+  --color-accent: #ff0000;
+  --color-text: #ffffff;
+  --color-glass: rgba(255, 255, 255, 0.05);
+  --font-main: 'Outfit', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-main);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #020205;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Lava Lamp Background */
+.lava-lamp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(80px) grayscale(100%) brightness(0.6); /* Noir effect */
+  z-index: 1;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: move infinite ease-in-out;
+}
+
+.blob-1 {
+  width: 500px;
+  height: 500px;
+  background: var(--color-primary);
+  top: -10%;
+  left: -10%;
+  animation-duration: 20s;
+}
+
+.blob-2 {
+  width: 600px;
+  height: 600px;
+  background: #d53a9d;
+  bottom: -20%;
+  right: -10%;
+  animation-duration: 25s;
+  animation-delay: -5s;
+}
+
+.blob-3 {
+  width: 400px;
+  height: 400px;
+  background: #743ad5;
+  top: 40%;
+  left: 30%;
+  animation-duration: 22s;
+  animation-delay: -10s;
+}
+
+.blob-4 {
+  width: 450px;
+  height: 450px;
+  background: #3a7bd5;
+  bottom: 20%;
+  left: 10%;
+  animation-duration: 18s;
+  animation-delay: -3s;
+}
+
+@keyframes move {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(100px, 150px) scale(1.1); }
+  66% { transform: translate(-80px, 80px) scale(0.9); }
+}
+
+.timer-container {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.time-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 20;
+}
+
+.wheel-picker {
+  position: relative;
+  width: 80px;
+  height: 120px;
+  perspective: 1000px;
+  overflow: hidden;
+  cursor: ns-resize;
+  border-radius: 12px;
+  transition: background 0.3s;
+}
+
+.wheel-picker:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.wheel-picker.large {
+  width: 200px; /* Increased from 160px */
+  height: 450px;
+  border-radius: 0;
+  perspective: 3000px;
+  /* Ensure mask doesn't clip horizontally */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+
+.wheel-cylinder {
+  position: absolute;
+  width: 100%;
+  height: 120px;
+  top: 165px;
+  transform-style: preserve-3d;
+  /* Transitions removed to allow 1:1 physics-based JS control */
+  pointer-events: none;
+}
+
+.wheel-item {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 130px;
+  font-weight: 200;
+  letter-spacing: -6px; /* Slightly reduced spacing for better fit */
+  color: white;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.wheel-mask {
+  display: none; /* Using CSS mask-image instead for better quality */
+}
+
+.separator {
+  font-size: 30px;
+  padding-bottom: 5px;
+  opacity: 0.5;
+}
+
+.display-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 20;
+}
+
+.main-separator {
+  font-size: 80px;
+  font-weight: 200;
+  opacity: 0.3;
+  margin: 0 5px;
+  padding-bottom: 20px;
+}
+
+.ms {
+  font-size: 32px;
+  opacity: 0.4;
+  margin-left: 10px;
+  align-self: flex-end;
+  margin-bottom: 35px;
+  font-family: var(--font-mono);
+}
+
+.progress-ring-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  width: 1200px;
+  height: 1200px;
+  pointer-events: none;
+  overflow: visible; /* Ensure nothing is cut off */
+}
+
+.progress-ring-container svg {
+  overflow: visible; /* Crucial for large filters */
+}
+
+.progress-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.03);
+  stroke-width: 2;
+}
+
+.progress-fill {
+  fill: none;
+  stroke: #ff3333;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear, stroke 0.5s;
+  /* Massive Dramatic Neon Halo */
+  filter: 
+    drop-shadow(0 0 15px rgba(255, 255, 255, 0.95)) 
+    drop-shadow(0 0 35px rgba(255, 255, 255, 0.7))
+    drop-shadow(0 0 60px rgba(255, 255, 255, 0.3));
+}
+
+.btn-main {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border: none;
+  padding: 15px 50px;
+  border-radius: 40px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.btn-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(0,210,255,0.2);
+}
+
+.btn-main:active {
+  transform: translateY(0);
+}
+
+.btn-sub {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 10px;
+  transition: color 0.3s;
+}
+
+.btn-sub:hover {
+  color: var(--color-text);
+}
+
+.hidden {
+  display: none;
+}
+
+.low-time .display-main {
+  animation: pulse 1s infinite ease-in-out;
+  color: #ff3e3e;
+}

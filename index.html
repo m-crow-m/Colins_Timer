@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CLEAN TIMER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+        <div class="lava-lamp">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="blob blob-4"></div>
+        </div>
+        <div class="timer-container">
+            <div class="display-main" id="timer-display">
+                <div class="wheel-picker large" id="wheel-mins">
+                    <div class="wheel-cylinder" id="cylinder-mins"></div>
+                </div>
+                <span class="main-separator">:</span>
+                <div class="wheel-picker large" id="wheel-secs">
+                    <div class="wheel-cylinder" id="cylinder-secs"></div>
+                </div>
+            </div>
+            
+            <div class="controls-minimal">
+                <button id="btn-start" class="btn-main">START</button>
+                <button id="btn-pause" class="btn-main hidden">PAUSE</button>
+                <button id="btn-reset" class="btn-sub">RESET</button>
+            </div>
+
+            <div class="progress-ring-container">
+                <svg width="1200" height="1200" viewBox="0 0 1200 1200">
+                    <circle class="progress-bg" cx="600" cy="600" r="350"></circle>
+                    <circle class="progress-fill" id="progress-bar" cx="600" cy="600" r="350"></circle>
+                </svg>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
