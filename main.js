@@ -1,4 +1,4 @@
-import timerSound from './src/assets/timerend.m4a';
+const timerSound = new URL('./src/assets/timerend.m4a', import.meta.url).href;
 
 let state = {
     totalSeconds: 450,
