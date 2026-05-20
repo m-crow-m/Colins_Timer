@@ -101,7 +101,7 @@ class Wheel {
         
         // Directly update currentVal but shift offsetAngle to mask the jump
         this.currentVal = newVal;
-        this.offsetAngle -= diff * ANGLE_STEP; // Shift offset out of bound
+        this.offsetAngle += diff * ANGLE_STEP; // CORRECTED: Shift offset to visually maintain previous position
         this.velocity = 0; // Clear any scroll momentum
         this.update();
     }
