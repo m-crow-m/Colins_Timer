@@ -2,6 +2,7 @@ let state = {
     totalSeconds: 450,
     remainingSeconds: 450,
     isRunning: false,
+    isMuted: false,
     timerInterval: null
 };
 
@@ -9,8 +10,10 @@ const elements = {
     btnStart: document.getElementById('btn-start'),
     btnPause: document.getElementById('btn-pause'),
     btnReset: document.getElementById('btn-reset'),
+    btnSound: document.getElementById('btn-sound-toggle'),
     progressBar: document.getElementById('progress-bar'),
-    timerContainer: document.querySelector('.timer-container')
+    timerContainer: document.querySelector('.timer-container'),
+    audioEnd: document.getElementById('audio-end')
 };
 
 const RADIUS = 250;
@@ -121,6 +124,13 @@ function init() {
     elements.btnPause.addEventListener('click', pauseTimer);
     elements.btnReset.addEventListener('click', resetTimer);
     
+    // Sound Toggle
+    elements.btnSound.addEventListener('click', () => {
+        state.isMuted = !state.isMuted;
+        elements.btnSound.textContent = state.isMuted ? '🔇' : '🔊';
+        elements.btnSound.classList.toggle('muted', state.isMuted);
+    });
+
     document.getElementById('wheel-mins').addEventListener('wheel', (e) => {
         if (state.isRunning) return;
         e.preventDefault();
@@ -175,6 +185,10 @@ function startTimer() {
         
         if (state.remainingSeconds <= 0) {
             stopTimer();
+            if (!state.isMuted) {
+                elements.audioEnd.currentTime = 0;
+                elements.audioEnd.play();
+            }
         }
     }, 1000);
 }
