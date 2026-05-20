@@ -58,6 +58,7 @@ class Wheel {
         });
     }
 
+    // High-performance animation loop for inertia
     animate() {
         if (Math.abs(this.velocity) > 0.05 || Math.abs(this.offsetAngle) > 0.05) {
             this.offsetAngle += this.velocity;
@@ -67,17 +68,16 @@ class Wheel {
                 this.offsetAngle *= 0.88; // Auto-center
             }
 
-            // CRITICAL: Only update currentVal if the user is scrolling (velocity exists)
-            // If we are just auto-centering (velocity small), we DON'T update currentVal
-            // This prevents double-counting during programmatic ticks.
+            // Only update currentVal if the user is scrolling
             if (Math.abs(this.velocity) > 0.2) {
-                if (this.offsetAngle < -ANGLE_STEP / 2) {
-                    this.currentVal = (this.currentVal - 1 + this.count) % this.count;
-                    this.offsetAngle += ANGLE_STEP;
-                    if (!state.isRunning) updateTotalFromWheels();
-                } else if (this.offsetAngle > ANGLE_STEP / 2) {
+                // If offsetAngle is growing positive (Lower index moving down)
+                if (this.offsetAngle > ANGLE_STEP / 2) {
                     this.currentVal = (this.currentVal + 1) % this.count;
                     this.offsetAngle -= ANGLE_STEP;
+                    if (!state.isRunning) updateTotalFromWheels();
+                } else if (this.offsetAngle < -ANGLE_STEP / 2) {
+                    this.currentVal = (this.currentVal - 1 + this.count) % this.count;
+                    this.offsetAngle += ANGLE_STEP;
                     if (!state.isRunning) updateTotalFromWheels();
                 }
             }
@@ -88,7 +88,8 @@ class Wheel {
     }
 
     scroll(delta) {
-        // scroll up (negative delta) -> negative velocity -> moves lower numbers down
+        // Delta > 0 is scroll down -> Positive velocity -> Positive offsetAngle 
+        // -> Moves top item down into center
         this.velocity += delta * 0.02; 
     }
 
@@ -100,9 +101,10 @@ class Wheel {
         const diff = (this.currentVal - newVal + this.count + this.count / 2) % this.count - this.count / 2;
         
         // Directly update currentVal but shift offsetAngle to mask the jump
+        // If currentVal goes 05 -> 04, diff is 1. We want offset to physically stay at 05.
         this.currentVal = newVal;
-        this.offsetAngle += diff * ANGLE_STEP; // CORRECTED: Shift offset to visually maintain previous position
-        this.velocity = 0; // Clear any scroll momentum
+        this.offsetAngle += diff * ANGLE_STEP; 
+        this.velocity = 0; 
         this.update();
     }
 }
