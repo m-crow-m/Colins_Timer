@@ -119,6 +119,21 @@ class Wheel {
 
 let wheelMins, wheelSecs;
 
+function unlockAudio() {
+    // Attempt a silent play to unlock audio context
+    elements.audioEnd.play().then(() => {
+        elements.audioEnd.pause();
+        elements.audioEnd.currentTime = 0;
+        console.log("Audio Unlocked");
+    }).catch(e => console.log("Audio unlock attempted:", e));
+    
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+}
+
+document.addEventListener('click', unlockAudio);
+document.addEventListener('touchstart', unlockAudio);
+
 function init() {
     wheelMins = new Wheel('cylinder-mins', 100, 7);
     wheelSecs = new Wheel('cylinder-secs', 60, 30);
