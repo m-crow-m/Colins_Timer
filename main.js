@@ -1,3 +1,5 @@
+import timerSound from './src/assets/timerend.m4a';
+
 let state = {
     totalSeconds: 450,
     remainingSeconds: 450,
@@ -15,6 +17,9 @@ const elements = {
     timerContainer: document.querySelector('.timer-container'),
     audioEnd: document.getElementById('audio-end')
 };
+
+// Set dynamic source handled by Vite
+elements.audioEnd.src = timerSound;
 
 const RADIUS = 250;
 const ANGLE_STEP = 40;
