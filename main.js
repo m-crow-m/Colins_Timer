@@ -187,8 +187,8 @@ function updateDisplay() {
 function startTimer() {
     if (state.isRunning || state.remainingSeconds <= 0) return;
     
-    // Unlock audio for later programmatic play (browser requirement)
-    elements.audioEnd.load();
+    // Refresh audio load on start
+    audioEnd.load();
     
     state.isRunning = true;
     elements.btnStart.classList.add('hidden');
@@ -208,8 +208,8 @@ function startTimer() {
         if (state.remainingSeconds <= 0) {
             stopTimer();
             if (!state.isMuted) {
-                elements.audioEnd.currentTime = 0;
-                elements.audioEnd.play().catch(e => console.error("Audio playback failed:", e));
+                audioEnd.currentTime = 0;
+                audioEnd.play().catch(e => console.error("Audio playback failed:", e));
             }
         }
     }, 1000);
