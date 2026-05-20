@@ -137,11 +137,14 @@ body {
 }
 
 .wheel-picker.large {
-  width: 200px; /* Increased from 160px */
+  width: 200px;
   height: 450px;
   border-radius: 0;
   perspective: 3000px;
-  /* Ensure mask doesn't clip horizontally */
+  position: relative;
+  overflow: hidden;
+  isolation: isolate; /* Critical for 3D stacking in Chromium */
+  /* Ensure mask doesn't clip 3D content incorrectly */
   -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0));
   mask-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0));
 }

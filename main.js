@@ -15,11 +15,11 @@ const elements = {
     btnSound: document.getElementById('btn-sound-toggle'),
     progressBar: document.getElementById('progress-bar'),
     timerContainer: document.querySelector('.timer-container'),
-    audioEnd: document.getElementById('audio-end')
 };
 
-// Set dynamic source handled by Vite
-elements.audioEnd.src = timerSound;
+// Use Web Audio API pattern (new Audio) for universal reliability
+const audioEnd = new Audio(timerSound);
+audioEnd.load();
 
 const RADIUS = 250;
 const ANGLE_STEP = 40;
@@ -120,10 +120,10 @@ class Wheel {
 let wheelMins, wheelSecs;
 
 function unlockAudio() {
-    // Attempt a silent play to unlock audio context
-    elements.audioEnd.play().then(() => {
-        elements.audioEnd.pause();
-        elements.audioEnd.currentTime = 0;
+    // Attempt a silent play to unlock audio context across browsers
+    audioEnd.play().then(() => {
+        audioEnd.pause();
+        audioEnd.currentTime = 0;
         console.log("Audio Unlocked");
     }).catch(e => console.log("Audio unlock attempted:", e));
     
