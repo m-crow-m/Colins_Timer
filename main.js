@@ -127,7 +127,6 @@ function init() {
     // Sound Toggle
     elements.btnSound.addEventListener('click', () => {
         state.isMuted = !state.isMuted;
-        elements.btnSound.textContent = state.isMuted ? '🔇' : '🔊';
         elements.btnSound.classList.toggle('muted', state.isMuted);
     });
 
