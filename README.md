@@ -1,4 +1,4 @@
-# Premium 3D Timer
+# Colin's Timer
 
 A high-performance, minimalist 3D timer built with Vite, Vanilla JS, and pure CSS.
 
