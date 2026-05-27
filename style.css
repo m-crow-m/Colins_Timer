@@ -41,6 +41,7 @@ body {
   height: 100%;
   filter: blur(80px) grayscale(100%) brightness(0.6); /* Noir effect */
   z-index: 1;
+  will-change: transform;
 }
 
 .blob {
@@ -142,9 +143,28 @@ body {
   border-radius: 0;
   perspective: 3000px;
   position: relative;
-  /* Ensure mask doesn't clip 3D content incorrectly */
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0));
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0));
+  isolation: isolate;
+}
+
+.wheel-picker.large::before,
+.wheel-picker.large::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 28%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.wheel-picker.large::before {
+  top: 0;
+  background: linear-gradient(to bottom, #020205 0%, rgba(2, 2, 5, 0) 100%);
+}
+
+.wheel-picker.large::after {
+  bottom: 0;
+  background: linear-gradient(to top, #020205 0%, rgba(2, 2, 5, 0) 100%);
 }
 
 .wheel-cylinder {
@@ -155,6 +175,7 @@ body {
   transform-style: preserve-3d;
   /* Transitions removed to allow 1:1 physics-based JS control */
   pointer-events: none;
+  will-change: transform;
 }
 
 .wheel-item {
@@ -167,17 +188,21 @@ body {
   align-items: center;
   font-size: 130px;
   font-weight: 200;
-  letter-spacing: -6px; 
+  letter-spacing: 0;
   color: white;
   -webkit-font-smoothing: antialiased;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  transform: translateZ(0); /* Force GPU composition */
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform, opacity;
+  contain: layout paint;
+}
+
+.is-firefox .lava-lamp {
+  filter: blur(48px) grayscale(100%) brightness(0.5);
 }
 
 .wheel-mask {
-  display: none; /* Using CSS mask-image instead for better quality */
+  display: none;
 }
 
 .separator {

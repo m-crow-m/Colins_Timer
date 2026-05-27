@@ -24,6 +24,9 @@ audioEnd.load();
 const RADIUS = 250;
 const ANGLE_STEP = 40;
 const CIRCUMFERENCE = 2 * Math.PI * 350;
+const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+
+document.documentElement.classList.toggle('is-firefox', isFirefox);
 
 class Wheel {
     constructor(id, count, initialVal) {
@@ -62,7 +65,7 @@ class Wheel {
             
             const visualDist = Math.abs(angle + this.offsetAngle) / ANGLE_STEP;
             item.el.style.opacity = Math.max(0, 1 - (visualDist * 0.4));
-            item.el.style.filter = `blur(${visualDist * 2.5}px)`;
+            item.el.style.filter = isFirefox ? 'none' : `blur(${visualDist * 2.5}px)`;
         });
     }
 
