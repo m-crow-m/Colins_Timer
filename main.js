@@ -29,6 +29,16 @@ const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
 
 document.documentElement.classList.toggle('is-firefox', isFirefox);
 
+function normalizeWheelDelta(event) {
+    const modeMultiplier = event.deltaMode === WheelEvent.DOM_DELTA_LINE
+        ? 16
+        : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
+            ? window.innerHeight
+            : 1;
+
+    return Math.max(-80, Math.min(80, event.deltaY * modeMultiplier));
+}
+
 class Wheel {
     constructor(id, count, initialVal) {
         this.cylinder = document.getElementById(id);
@@ -78,7 +88,7 @@ class Wheel {
             
             const visualDist = Math.abs(angle + this.offsetAngle) / ANGLE_STEP;
             item.el.style.opacity = Math.max(0, 1 - (visualDist * 0.4));
-            item.el.style.filter = isFirefox ? 'none' : `blur(${visualDist * 2.5}px)`;
+            item.el.style.filter = 'none';
         });
     }
 
@@ -114,7 +124,7 @@ class Wheel {
     scroll(delta) {
         // Delta > 0 is scroll down -> Positive velocity -> Positive offsetAngle 
         // -> Moves top item down into center
-        this.velocity += delta * 0.02; 
+        this.velocity = Math.max(-7, Math.min(7, this.velocity + delta * 0.012)); 
     }
 
     // Used by the countdown timer to "tick" smoothly
@@ -127,7 +137,7 @@ class Wheel {
         // Directly update currentVal but shift offsetAngle to mask the jump
         // If currentVal goes 05 -> 04, diff is 1. We want offset to physically stay at 05.
         this.currentVal = newVal;
-        this.offsetAngle += diff * ANGLE_STEP; 
+        this.offsetAngle += (isFirefox ? -diff : diff) * ANGLE_STEP; 
         this.velocity = 0; 
         this.update();
     }
@@ -169,13 +179,13 @@ function init() {
     document.getElementById('wheel-mins').addEventListener('wheel', (e) => {
         if (state.isRunning) return;
         e.preventDefault();
-        wheelMins.scroll(e.deltaY);
+        wheelMins.scroll(normalizeWheelDelta(e));
     });
 
     document.getElementById('wheel-secs').addEventListener('wheel', (e) => {
         if (state.isRunning) return;
         e.preventDefault();
-        wheelSecs.scroll(e.deltaY);
+        wheelSecs.scroll(normalizeWheelDelta(e));
     });
     
     elements.progressBar.style.strokeDasharray = CIRCUMFERENCE;

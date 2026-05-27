@@ -134,7 +134,7 @@ body {
 }
 
 .wheel-picker:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
 }
 
 .wheel-picker.large {
@@ -143,28 +143,6 @@ body {
   border-radius: 0;
   perspective: 3000px;
   position: relative;
-  isolation: isolate;
-}
-
-.wheel-picker.large::before,
-.wheel-picker.large::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 28%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.wheel-picker.large::before {
-  top: 0;
-  background: linear-gradient(to bottom, #020205 0%, rgba(2, 2, 5, 0) 100%);
-}
-
-.wheel-picker.large::after {
-  bottom: 0;
-  background: linear-gradient(to top, #020205 0%, rgba(2, 2, 5, 0) 100%);
 }
 
 .wheel-cylinder {
@@ -204,11 +182,6 @@ body {
 .is-firefox .wheel-picker.large {
   perspective: none;
   background: transparent;
-}
-
-.is-firefox .wheel-picker.large::before,
-.is-firefox .wheel-picker.large::after {
-  display: none;
 }
 
 .is-firefox .wheel-picker:hover {
