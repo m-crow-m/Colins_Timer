@@ -167,11 +167,8 @@ body {
   font-size: 130px;
   font-weight: 200;
   letter-spacing: 0;
-  color: white;
+  color: rgba(255, 255, 255, 1);
   -webkit-font-smoothing: antialiased;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  will-change: transform, opacity;
 }
 
 .is-firefox .lava-lamp {

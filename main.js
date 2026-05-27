@@ -74,7 +74,8 @@ class Wheel {
             item.el.style.transform = `rotateX(${angle}deg) translateZ(${RADIUS}px)`;
             
             const visualDist = Math.abs(angle + this.offsetAngle) / ANGLE_STEP;
-            item.el.style.opacity = Math.max(0, 1 - (visualDist * 0.4));
+            const alpha = Math.max(0, 1 - (visualDist * 0.4));
+            item.el.style.color = `rgba(255, 255, 255, ${alpha})`;
             item.el.style.filter = 'none';
         });
     }
