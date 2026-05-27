@@ -172,29 +172,10 @@ body {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   will-change: transform, opacity;
-  contain: layout paint;
 }
 
 .is-firefox .lava-lamp {
   filter: blur(48px) grayscale(100%) brightness(0.5);
-}
-
-.is-firefox .wheel-picker.large {
-  perspective: none;
-  background: transparent;
-}
-
-.is-firefox .wheel-picker:hover {
-  background: transparent;
-}
-
-.is-firefox .wheel-cylinder {
-  transform-style: flat;
-}
-
-.is-firefox .wheel-item {
-  backface-visibility: visible;
-  contain: none;
 }
 
 .wheel-mask {

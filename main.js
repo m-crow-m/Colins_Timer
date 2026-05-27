@@ -23,7 +23,6 @@ audioEnd.load();
 
 const RADIUS = 250;
 const ANGLE_STEP = 40;
-const FIREFOX_ITEM_SPACING = 104;
 const CIRCUMFERENCE = 2 * Math.PI * 350;
 const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
 
@@ -63,24 +62,12 @@ class Wheel {
     }
 
     update() {
-        this.cylinder.style.transform = isFirefox ? 'none' : `rotateX(${this.offsetAngle}deg)`;
+        this.cylinder.style.transform = `rotateX(${this.offsetAngle}deg)`;
 
         this.items.forEach(item => {
             // Lower values are above (positive item.offset)
             const val = (this.currentVal - item.offset + this.count * 100) % this.count;
             item.el.textContent = val.toString().padStart(2, '0');
-
-            if (isFirefox) {
-                const position = -item.offset + (this.offsetAngle / ANGLE_STEP);
-                const y = position * FIREFOX_ITEM_SPACING;
-                const visualDist = Math.abs(position);
-                const scale = Math.max(0.76, 1 - visualDist * 0.08);
-
-                item.el.style.transform = `translate3d(0, ${y}px, 0) scale(${scale})`;
-                item.el.style.opacity = Math.max(0, 1 - (visualDist * 0.34));
-                item.el.style.filter = 'none';
-                return;
-            }
             
             // i=1 is ABOVE (angle = 40deg)
             const angle = item.offset * ANGLE_STEP;
@@ -137,7 +124,7 @@ class Wheel {
         // Directly update currentVal but shift offsetAngle to mask the jump
         // If currentVal goes 05 -> 04, diff is 1. We want offset to physically stay at 05.
         this.currentVal = newVal;
-        this.offsetAngle += (isFirefox ? -diff : diff) * ANGLE_STEP; 
+        this.offsetAngle += diff * ANGLE_STEP; 
         this.velocity = 0; 
         this.update();
     }
